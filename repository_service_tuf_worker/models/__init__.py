@@ -20,6 +20,9 @@ from repository_service_tuf_worker.models.targets import (  # noqa
 
 
 def rstuf_db(db_server: str) -> Session:
+    if db_server.startswith("postgresql://"):
+        db_server = db_server.replace("postgresql://", "postgresql+psycopg2://", 1)
+
     connect_args = {}
 
     if os.environ.get("RSTUF_DB_KEEPALIVE"):
